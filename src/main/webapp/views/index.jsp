@@ -11,9 +11,9 @@
     <%@ include file="/WEB-INF/jspf/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/jspf/header.jspf" %>
-        <jsp:include page="sections/hero.jsp" />
-        <jsp:include page="sections/categories.jsp" />
-        <jsp:include page="sections/featured.jsp" />
+        <jsp:include page="/WEB-INF/sections/hero.jsp" />
+        <jsp:include page="/WEB-INF/sections/categories.jsp" />
+        <jsp:include page="/WEB-INF/sections/featured.jsp" />
 
         <%@include file="/WEB-INF/jspf/footer.jspf" %>
         <%@include file="/WEB-INF/jspf/scripts.jspf" %>
