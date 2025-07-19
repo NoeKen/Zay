@@ -1,0 +1,27 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<div class="col-12 col-md-4 mb-4">
+    <div class="card h-100">
+        <a href="views/product-details.jsp">
+            <%-- Assure-toi que p.image est le chemin correct ou génère l'URL dynamiquement --%>
+            <img src="${pageContext.request.contextPath}/assets/img/${produitCourant.image}" class="card-img-top" alt="${produitCourant.name}">
+        </a>
+        <div class="card-body">
+            <ul class="list-unstyled d-flex justify-content-between">
+                <li>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-muted fa fa-star"></i>
+                    <i class="text-muted fa fa-star"></i>
+                </li>
+                <li class="text-muted text-right"><c:out value="${produitCourant.price}"/> $</li>
+            </ul>
+            <a href="shop-single.html" class="h2 text-decoration-none text-dark"><c:out value="${produitCourant.name}"/></a>
+            <p class="card-text"><c:out value="${produitCourant.description}" /></p>
+            <p class="text-muted">Reviews (24)</p>
+            <%-- Ceci est redondant avec le prix ci-dessus, mais pour l'exemple --%>
+            <c:out value="${produitCourant.price}"/> 
+        </div>
+    </div>
+</div>
