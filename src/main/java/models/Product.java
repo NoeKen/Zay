@@ -1,18 +1,49 @@
 package models;
 
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+/**
+ * Entité représentant un produit dans la boutique.
+ */
+
+@Entity // Marque cette classe comme une entité JPA
+@Table(name = "products") // Lie cette classe à la table SQL "products"
 public class Product {
+
+    @Id // Déclare la clé primaire
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Utilise l'auto-incrément de la base
     private int id;
-    private String name;
-    private String description;
-    private double price;
-    private String image;
-    private int stock;
-    private boolean featured;
-    private int categoryId;
 
-    public Product() {}
+    @Column(nullable = false, length = 100)
+    private String name; // Nom du produit
 
-    public Product(int id, String name, String description, double price, String image, int stock, boolean featured, int categoryId) {
+    @Column(length = 255)
+    private String description; // Description du produit
+
+    @Column(nullable = false)
+    private BigDecimal price; // Prix en dollars
+
+    @Column(length = 255)
+    private String image; // URL ou nom du fichier image
+
+    @Column(nullable = false)
+    private Integer stock; // Quantité disponible en stock
+
+    @Column(nullable = false)
+    private boolean featured; // Produit mis en avant ou non
+
+    // Mapping simple par ID de catégorie (relation manuelle en DAO)
+    @Column(name = "category_id", nullable = false)
+    private Integer categoryId;
+
+    // ----------------- Constructeurs -----------------
+
+    public Product() {
+        // Constructeur sans argument requis par JPA
+    }
+
+    public Product(int id, String name, String description, BigDecimal price, String image, int stock, boolean featured, int categoryId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -23,28 +54,69 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // ----------------- Getters & Setters -----------------
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public int getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public String getName() {
+        return name;
+    }
 
-    public String getImage() { return image; }
-    public void setImage(String image) { this.image = image; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
+    public String getDescription() {
+        return description;
+    }
 
-    public boolean isFeatured() { return featured; }
-    public void setFeatured(boolean featured) { this.featured = featured; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public int getCategoryId() { return categoryId; }
-    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 }

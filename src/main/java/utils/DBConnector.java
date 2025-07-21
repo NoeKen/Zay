@@ -1,46 +1,69 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- *
- * @author admin
- */
 public class DBConnector {
-    private static Connection connection;
+    // Déclarez le dataSource comme statique et final pour qu'il soit initialisé une seule fois
+    private static final HikariDataSource dataSource;
 
-    public static Connection getConnection() {
-        if (connection != null) return connection;
-
+    // Bloc statique pour initialiser le pool de connexions une seule fois au chargement de la classe
+    static {
+        Properties props = new Properties();
         try (InputStream input = DBConnector.class.getClassLoader().getResourceAsStream("db.properties")) {
-            Properties props = new Properties();
             if (input == null) {
-                throw new RuntimeException("Fichier db.properties introuvable.");
+                throw new RuntimeException("Fichier db.properties introuvable. Assurez-vous qu'il est dans le classpath.");
             }
-
             props.load(input);
 
-            String url = props.getProperty("db.url");
-            String user = props.getProperty("db.username");
-            String password = props.getProperty("db.password");
-            String driver = props.getProperty("db.driver");
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(props.getProperty("db.url"));
+            config.setUsername(props.getProperty("db.username"));
+            config.setPassword(props.getProperty("db.password"));
+            config.setDriverClassName(props.getProperty("db.driver")); // Définir explicitement le driver
 
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connexion à la base MariaDB établie avec succès.");
+            // Paramètres HikariCP recommandés pour de bonnes performances
+            config.addDataSourceProperty("cachePrepStmts", "true");
+            config.addDataSourceProperty("prepStmtCacheSize", "250");
+            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            config.setConnectionTimeout(30000); // Temps d'attente maximum pour une connexion (ms)
+            config.setMaximumPoolSize(10);     // Nombre maximum de connexions dans le pool
+            config.setMinimumIdle(5);          // Nombre minimum de connexions inactives dans le pool
+            config.setIdleTimeout(600000);     // Temps maximum qu'une connexion peut rester inactive dans le pool (ms)
+
+            dataSource = new HikariDataSource(config);
+            System.out.println("HikariCP Connection Pool initialisé avec succès.");
 
         } catch (Exception e) {
-            System.err.println("error when connecting to database"+e);
-            throw new RuntimeException("Erreur lors de la connexion à la base de données."+e);
+            System.err.println("Erreur fatale lors de l'initialisation du pool de connexions: " + e.getMessage());
+            e.printStackTrace(); // Afficher la pile d'appels pour un diagnostic complet
+            throw new RuntimeException("Impossible d'initialiser le pool de connexions à la base de données.", e);
         }
+    }
 
-        return connection;
+    /**
+     * Retourne une connexion à partir du pool.
+     * Cette connexion doit être fermée (retournée au pool) par l'appelant
+     * via un bloc try-with-resources.
+     * @return Une connexion JDBC active du pool.
+     * @throws SQLException Si une erreur SQL survient lors de l'obtention de la connexion.
+     */
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection(); // Obtient une connexion du pool
+    }
+
+    /**
+     * Méthode optionnelle pour fermer explicitement le pool de connexions lors de l'arrêt de l'application.
+     * Peut être appelée dans un ServletContextListener par exemple.
+     */
+    public static void closeDataSource() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            System.out.println("HikariCP Connection Pool fermé.");
+        }
     }
 }

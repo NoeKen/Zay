@@ -94,7 +94,7 @@
                                     <div class="card mb-4 product-wap rounded-0">
                                         <div class="card rounded-0">
                                             <%-- Utilisation de ${product.image} pour l'image dynamique --%>
-                                            <img class="card-img rounded-0 img-fluid" src="${pageContext.request.contextPath}/assets/img/shop_01.jpg">
+                                            <img class="card-img rounded-0 img-fluid" src="${pageContext.request.contextPath}/assets/img/${product.image}">
                                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                                 <ul class="list-unstyled">
                                                     <li><a class="btn btn-success text-white" href="shop-single.html?id=${product.id}"><i class="far fa-heart"></i></a></li>
@@ -137,17 +137,30 @@
                     
                     
                     <div class="row">
-                        <ul class="pagination pagination-lg justify-content-end">
-                            <li class="page-item disabled">
-                                <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                            </li>
-                        </ul>
+                        <div class="col-12">
+                            <ul class="pagination pagination-lg justify-content-end">
+                                <%-- Bouton "Précédent" --%>
+                                <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">
+                                    <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0" 
+                                       href="?page=<c:out value="${currentPage - 1}"/>" 
+                                       tabindex="-1">Précédent</a>
+                                </li>
+
+                                <%-- Boucle pour générer les numéros de page --%>
+                                <c:forEach begin="1" end="${totalPages}" var="i">
+                                    <li class="page-item <c:if test="${currentPage == i}">active</c:if>">
+                                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 <c:if test="${currentPage == i}">text-white bg-success</c:if><c:if test="${currentPage != i}">text-dark</c:if>" 
+                                           href="?page=<c:out value="${i}"/>"><c:out value="${i}"/></a>
+                                    </li>
+                                </c:forEach>
+
+                                <%-- Bouton "Suivant" --%>
+                                <li class="page-item <c:if test="${currentPage == totalPages}">disabled</c:if>">
+                                    <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0" 
+                                       href="?page=<c:out value="${currentPage + 1}"/>">Suivant</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

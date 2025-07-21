@@ -4,7 +4,8 @@
  */
 package controllers;
 
-import dao.ProductDAO;
+import Factory.ProductServiceFactory;
+import interfaces.ProductService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -52,13 +53,42 @@ public class ShopController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO dao = new ProductDAO();
-        List<Product> produits = dao.findAll();
-        System.out.println("====================> Produit: debut test <=========================");
-        for (Product produit : produits) {
-            System.out.println("====================> Produit: "+ produit.getName()+"<=========================");
+        // Instanciation de la classe ProductService
+        ProductService productService = ProductServiceFactory.getProductService();
+        int currentPage = 1; // Page par défaut
+        if (request.getParameter("page") != null) {
+            try {
+                currentPage = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                // Gérer l'erreur si le paramètre 'page' n'est pas un nombre
+                currentPage = 1;
+            }
         }
-        request.setAttribute("produits", produits);
+
+        int recordsPerPage = 9; // 3 cartes par ligne * 3 lignes = 9 produits par page
+
+        // Obtenez le nombre total de produits (nécessaire pour calculer le nombre total de pages)
+        // Ceci devrait idéalement être optimisé pour ne pas charger tous les produits si vous en avez des milliers
+        // La méthode countAllProducts() serait meilleure ici.
+        int totalProducts = productService.countAllProducts(); // Supposons cette méthode dans votre DAO
+
+        int totalPages = (int) Math.ceil((double) totalProducts / recordsPerPage);
+
+        int start = (currentPage - 1) * recordsPerPage;
+        // Récupérez seulement les produits pour la page actuelle
+        List<Product> produitsPagines = productService.getProducts(start, recordsPerPage); 
+        
+        for (Product produitPagine : produitsPagines) {
+            System.out.println("===========> Product name: "+ produitPagine.getName());
+            System.out.println("===========> Product description: "+ produitPagine.getDescription());
+            System.out.println("<=========================>\n");
+        }
+
+        request.setAttribute("produits", produitsPagines);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("recordsPerPage", recordsPerPage); // Utile si vous voulez offrir des options de taille de page
+
         request.getRequestDispatcher("/views/shop.jsp").forward(request, response);
     }
 

@@ -5,6 +5,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-public class ContactController extends HttpServlet {
+public class AboutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,7 +28,7 @@ public class ContactController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/views/contact.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/about.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
