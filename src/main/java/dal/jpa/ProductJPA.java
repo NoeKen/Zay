@@ -8,17 +8,17 @@ package dal.jpa;
  *
  * @author admin
  */
-
 import interfaces.ProductService;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import models.Product;
 import utils.JpaUtil;
 
 import java.util.List;
 
 /**
- * Implémentation de ProductService en utilisant JPA.
- * Permet d'interagir avec la table des produits via EntityManager.
+ * Implémentation de ProductService en utilisant JPA. Permet d'interagir avec la
+ * table des produits via EntityManager.
  */
 public class ProductJPA implements ProductService {
 
@@ -97,6 +97,7 @@ public class ProductJPA implements ProductService {
 
     /**
      * Récupère une liste paginée de produits en utilisant JPA.
+     *
      * @param offset Le nombre d'éléments à ignorer (début de la pagination).
      * @param limit Le nombre maximum de produits à retourner.
      * @return Liste des produits pour la page spécifiée.
@@ -127,5 +128,58 @@ public class ProductJPA implements ProductService {
 
         return products;
     }
-}
 
+    @Override
+    public List<Product> findByCriteria(int categoryId, BigDecimal minPrice, BigDecimal maxPrice, boolean featured) {
+        try {
+            // Construction dynamique de la requête JPQL
+            StringBuilder jpql = new StringBuilder("SELECT p FROM Product p WHERE 1=1");
+
+            if (categoryId != -1) {
+                jpql.append(" AND p.categoryId = :categoryId");
+            }
+            if (minPrice != null) {
+                jpql.append(" AND p.price >= :minPrice");
+            }
+            if (maxPrice != null) {
+                jpql.append(" AND p.price <= :maxPrice");
+            }
+            if (featured) {
+                jpql.append(" AND p.featured = true");
+            }
+
+            TypedQuery<Product> query = em.createQuery(jpql.toString(), Product.class);
+
+            // Application conditionnelle des paramètres
+            if (categoryId != -1) {
+                query.setParameter("categoryId", categoryId);
+            }
+            if (minPrice != null) {
+                query.setParameter("minPrice", minPrice);
+            }
+            if (maxPrice != null) {
+                query.setParameter("maxPrice", maxPrice);
+            }
+
+            return query.getResultList();
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la recherche par critères : " + e.getMessage());
+            return List.of();
+        }
+    }
+
+    @Override
+    public List<Product> findFeaturedProducts() {
+        try {
+            TypedQuery<Product> query = em.createQuery(
+                    "SELECT p FROM Product p WHERE p.featured = true", Product.class
+            );
+            return query.getResultList();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des produits vedettes : " + e.getMessage());
+            return List.of();
+        }
+    }
+
+}

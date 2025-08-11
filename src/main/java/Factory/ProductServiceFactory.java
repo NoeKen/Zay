@@ -18,9 +18,9 @@ import dal.dao.ProductDAO; // Si tu as aussi une version DAO
 public class ProductServiceFactory {
 
     // Type d'implémentation (ex: "JPA", "DAO", etc.)
-    private static final String IMPLEMENTATION = "JPA";
+    private static final String IMPLEMENTATION = "DAO";
 
-    public static ProductService getProductService() {
+    public static ProductService getInstance() {
         switch (IMPLEMENTATION) {
             case "JPA" -> {
                 return new ProductJPA();

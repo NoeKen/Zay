@@ -25,7 +25,7 @@ public class CategoryDAO implements CategoryService{
     @Override
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT id, name, description, image_url FROM categories ORDER BY name"; 
+        String sql = "SELECT id, name, description, image_url FROM categories LIMIT 3"; 
 
         try (Connection conn = DBConnector.getConnection(); // Obtient une connexion du pool
              PreparedStatement ps = conn.prepareStatement(sql);

@@ -57,6 +57,12 @@
             <artifactId>hibernate-core</artifactId>
             <version>6.4.1.Final</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     <build>

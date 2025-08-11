@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,19 +25,13 @@
             </div>
         </div>
         <div class="row">
-            <%@include file="/WEB-INF/jspf/category-item.jspf" %>
-            
-            <!--Supprimer tout le contenu brut ici bas-->
-            <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="${pageContext.request.contextPath}/assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-            </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="${pageContext.request.contextPath}/assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-            </div>
+            <c:forEach var="category" items="${productsCategories}">
+                <div class="col-12 col-md-4 p-5 mt-3">
+                    <a href="#"><img src="${pageContext.request.contextPath}/assets/img/${category.imageUrl}.jpg" class="rounded-circle img-fluid border"></a>
+                    <h2 class="h5 text-center mt-3 mb-3">${category.name}</h2>
+                    <p class="text-center"><a class="btn btn-success">${category.description}</a></p>
+                </div>
+            </c:forEach>
         </div>
     </section>
     <!-- End Categories of The Month -->

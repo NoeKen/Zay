@@ -9,10 +9,10 @@
 
         <div class="collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
             <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                <li class="nav-item"><a class="nav-link" href="HomeController">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="AboutController">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="ShopController">Shop</a></li>
-                <li class="nav-item"><a class="nav-link" href="ContactController">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="Home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="About">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="Shop">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="Contact">Contact</a></li>
 
             </ul>
 

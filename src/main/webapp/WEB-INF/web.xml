@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>HomeController</servlet-name>
-        <servlet-class>controllers.HomeController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ShopController</servlet-name>
         <servlet-class>controllers.ShopController</servlet-class>
     </servlet>
@@ -32,37 +28,53 @@
         <servlet-name>AboutController</servlet-name>
         <servlet-class>controllers.AboutController</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
         <servlet-name>HomeController</servlet-name>
-        <url-pattern>/HomeController</url-pattern>
-    </servlet-mapping>
+        <servlet-class>controllers.HomeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShopController</servlet-name>
-        <url-pattern>/ShopController</url-pattern>
+        <url-pattern>/Shop</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductDetailsController</servlet-name>
-        <url-pattern>/ProductDetailsController</url-pattern>
+        <url-pattern>/ProductDetails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CartController</servlet-name>
-        <url-pattern>/CartController</url-pattern>
+        <url-pattern>/Cart</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CheckoutController</servlet-name>
-        <url-pattern>/CheckoutController</url-pattern>
+        <url-pattern>/Checkout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ContactController</servlet-name>
-        <url-pattern>/ContactController</url-pattern>
+        <url-pattern>/Contact</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AuthController</servlet-name>
-        <url-pattern>/AuthController</url-pattern>
+        <url-pattern>/Auth</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AboutController</servlet-name>
-        <url-pattern>/AboutController</url-pattern>
+        <url-pattern>/About</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>utils.listeners.AppShutdownListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>AccueilController</servlet-name>
+        <servlet-class>controllers.AccueilController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/HomeEx</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccueilController</servlet-name>
+        <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -70,6 +82,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>views/index.jsp</welcome-file>
+        <welcome-file>Home</welcome-file>
     </welcome-file-list>
 </web-app>

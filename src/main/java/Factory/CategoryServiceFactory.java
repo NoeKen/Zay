@@ -11,7 +11,7 @@ import dal.jpa.CategoryJPA;
 import interfaces.CategoryService;
 
 public class CategoryServiceFactory {
-    private static final String MODE = System.getProperty("data.mode", "DAO"); // Pour definir si c'est JDBC/DAO ou JPA qui utilise pour gerer la base de donnees 
+    private static final String MODE = System.getProperty("data.mode", "DAO");      // Pour definir si c'est JDBC/DAO ou JPA qui utilise pour gerer la base de donnees 
 
     public static CategoryService getInstance() {
         if (MODE.equalsIgnoreCase("JPA")) {

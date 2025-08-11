@@ -4,7 +4,9 @@
  */
 package controllers;
 
+import Factory.CategoryServiceFactory;
 import Factory.ProductServiceFactory;
+import interfaces.CategoryService;
 import interfaces.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,13 +15,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import models.Category;
 import models.Product;
 
 /**
  *
  * @author admin
  */
-public class HomeController extends HttpServlet {
+public class AccueilController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +35,7 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/views/about.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,15 +50,28 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        ProductService productService = ProductServiceFactory.getProductService();
-//        // 1. Appel du service pour obtenir la liste des produits vedettes
-//        List<Product> featuredProducts = productService.findFeaturedProducts();
-//
-//        // 2. Envoie des données à la JSP
-//        request.setAttribute("featuredProducts", featuredProducts);
+        ProductService productService = ProductServiceFactory.getInstance();
+        CategoryService categoryService = CategoryServiceFactory.getInstance();
+        
+        // Obtenir la liste des categories
+        List<Category> productsCategories = categoryService.findAll();
+        for (Category category : productsCategories) {
+            System.out.println("<=================== Category Name: " + category.getName()+"======================>");
+            System.out.println("<=================== Category Name: " + category.getImageUrl()+"======================>");
+        }        
+                
+        // Appel du service pour obtenir la liste des produits vedettes
+        List<Product> featuredProducts = productService.findFeaturedProducts();
+//        for (Product featuredProduct : featuredProducts) {
+//            System.out.println("===================> Product Name: " + featuredProduct.getName()+"<======================");
+//        }
+        // Envoie des données à la JSP
+        request.setAttribute("featuredProducts", featuredProducts);
+        request.setAttribute("productsCategories", productsCategories);
+        request.getRequestDispatcher("/views/index.jsp").forward(request, response);
     }
 
-    /**.
+    /**
      * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
