@@ -103,7 +103,6 @@ public class ProductJPA implements ProductService {
      * @return Liste des produits pour la page spécifiée.
      */
     public List<Product> getProducts(int offset, int limit) {
-        System.out.println("Début récupération des produits paginés avec JPA (Offset: " + offset + ", Limit: " + limit + ")");
         List<Product> products = null;
         try {
 
@@ -182,4 +181,48 @@ public class ProductJPA implements ProductService {
         }
     }
 
+    @Override
+    public List<Product> getProductsByCategory(int categoryId, int start, int recordsPerPage) {
+        System.out.println("Début récupération des produits par catégorie avec JPA (CategoryId: " + categoryId 
+            + ", Start: " + start + ", RecordsPerPage: " + recordsPerPage + ")");
+        try {
+            TypedQuery<Product> query = em.createQuery(
+                "SELECT p FROM Product p WHERE p.categoryId = :categoryId ORDER BY p.id", Product.class);
+            query.setParameter("categoryId", categoryId);
+            query.setFirstResult(start);       // offset
+            query.setMaxResults(recordsPerPage); // limit
+
+            List<Product> products = query.getResultList();
+            System.out.println("========================> Nombre de produits récupérés (catégorie): " + products.size());
+            return products;
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des produits par catégorie avec JPA : " + e.getMessage());
+            return List.of();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    @Override
+    public int countProductsByCategory(int categoryId) {
+        System.out.println("Comptage des produits par catégorie avec JPA (CategoryId: " + categoryId + ")");
+        try {
+            Query query = em.createQuery(
+                "SELECT COUNT(p) FROM Product p WHERE p.categoryId = :categoryId");
+            query.setParameter("categoryId", categoryId);
+            Long count = (Long) query.getSingleResult();
+            System.out.println("========================> Total produits catégorie: " + count);
+            return count.intValue();
+        } catch (Exception e) {
+            System.err.println("Erreur lors du comptage des produits par catégorie avec JPA : " + e.getMessage());
+            return 0;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
 }

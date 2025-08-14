@@ -4,12 +4,19 @@
  */
 package controllers;
 
+import Factory.CategoryServiceFactory;
+import Factory.ProductServiceFactory;
+import interfaces.CategoryService;
+import interfaces.ProductService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import models.Category;
+import models.Product;
 
 /**
  *
@@ -28,7 +35,7 @@ public class ProductDetailsController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/views/product-details.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -43,7 +50,26 @@ public class ProductDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ProductService productService = ProductServiceFactory.getInstance();
+        
+        Product currentProduct = null;
+        
+        List<String> sizesList = new ArrayList();
+        List<Product> relatedProducts = new ArrayList();
+        
+        if (request.getParameter("productId") != null){
+            currentProduct = productService.findById(Integer.parseInt(request.getParameter("productId")));
+            relatedProducts = productService.getProductsByCategory(currentProduct.getCategoryId(), 1, 9);
+            sizesList = currentProduct.getSizesList();
+        }
+        
+        for (Product relatedProduct : relatedProducts) {
+            System.out.println("related product: "+ relatedProduct.getName());
+        }
+        request.setAttribute("currentProduct", currentProduct);
+        request.setAttribute("currentProductsizes", sizesList);
+        request.setAttribute("relatedProducts", relatedProducts);
+        request.getRequestDispatcher("/views/product-details.jsp").forward(request, response);
     }
 
     /**

@@ -30,17 +30,21 @@
                 <c:forEach var="product" items="${featuredProducts}">
                     <div class="col-12 col-md-4 mb-4">
                         <div class="card h-100">
-                            <a href="shop-single.html">
+                            <a href="ProductDetails?productId=${product.id}">
                                 <img src="${pageContext.request.contextPath}/assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
                             </a>
                             <div class="card-body">
                                 <ul class="list-unstyled d-flex justify-content-between">
                                     <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
+                                        <!-- Affichage des étoiles pleines -->
+                                        <c:forEach var="i" begin="1" end="${product.avgRating}">
+                                            <i class="text-warning fa fa-star"></i>
+                                        </c:forEach>
+
+                                        <!-- Affichage des étoiles vides -->
+                                        <c:forEach var="i" begin="1" end="${5 - product.avgRating}">
+                                            <i class="text-muted fa fa-star"></i>
+                                        </c:forEach>
                                     </li>
                                     <li class="text-muted text-right">${product.price}</li>
                                 </ul>
@@ -48,7 +52,7 @@
                                 <p class="card-text">
                                     ${product.description}
                                 </p>
-                                <p class="text-muted">Reviews (48)</p>
+                                <p class="text-muted">Reviews (${product.nbrComments})</p>
                             </div>
                         </div>
                     </div>

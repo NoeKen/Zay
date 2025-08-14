@@ -54,17 +54,13 @@ public class AccueilController extends HttpServlet {
         CategoryService categoryService = CategoryServiceFactory.getInstance();
         
         // Obtenir la liste des categories
-        List<Category> productsCategories = categoryService.findAll();
-        for (Category category : productsCategories) {
-            System.out.println("<=================== Category Name: " + category.getName()+"======================>");
-            System.out.println("<=================== Category Name: " + category.getImageUrl()+"======================>");
-        }        
+        List<Category> productsCategories = categoryService.findAll();     
                 
         // Appel du service pour obtenir la liste des produits vedettes
         List<Product> featuredProducts = productService.findFeaturedProducts();
-//        for (Product featuredProduct : featuredProducts) {
-//            System.out.println("===================> Product Name: " + featuredProduct.getName()+"<======================");
-//        }
+        for (Product featuredProduct : featuredProducts) {
+            System.out.println("===================> Product avg_rating: " + featuredProduct.getNbrComments()+"<======================");
+        }
         // Envoie des données à la JSP
         request.setAttribute("featuredProducts", featuredProducts);
         request.setAttribute("productsCategories", productsCategories);

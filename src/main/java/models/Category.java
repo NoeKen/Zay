@@ -1,27 +1,20 @@
 package models;
 
-import jakarta.persistence.*; 
+//import jakarta.persistence.*; 
 
 /**
  * Modèle représentant une catégorie.
  * Utilisable à la fois avec DAO (via JDBC) et JPA (via EntityManager).
  */
 
-@Entity // Indique que cette classe est une entité persistante JPA
-@Table(name = "categories") // Lie cette entité à la table 'categories'
 public class Category {
 
-    @Id // Définit la clé primaire
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémentée 
     private int id;
 
-    @Column(nullable = false, length = 100) // Champ non null avec longueur max de 100 caractères
     private String name;
 
-    @Column(length = 255)
     private String description;
 
-    @Column(name = "image_url") // Précise le nom exact de la colonne en DB
     private String imageUrl;
 
     // Constructeur vide obligatoire pour JPA
@@ -75,4 +68,11 @@ public class Category {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" + "id=" + id + ", name=" + name + ", description=" + description + ", imageUrl=" + imageUrl + '}';
+    }
+    
+    
 }

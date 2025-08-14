@@ -63,6 +63,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <ul class="list-inline shop-top-menu pb-3 pt-1">
+                                <c:forEach var="filter" items="${appliedFilters}">
+                                    <li class="list-inline-item">
+                                        <a class="h3 text-dark text-decoration-none mr-3" href="#">${filter}</a>
+                                </c:forEach>
+                            </ul>
+<!--                            <ul class="list-inline shop-top-menu pb-3 pt-1">
                                 <li class="list-inline-item">
                                     <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
                                 </li>
@@ -72,7 +78,7 @@
                                 <li class="list-inline-item">
                                     <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
                                 </li>
-                            </ul>
+                            </ul>-->
                         </div>
                         <div class="col-md-6 pb-4">
                             <div class="d-flex">
@@ -97,9 +103,9 @@
                                             <img class="card-img rounded-0 img-fluid" src="${pageContext.request.contextPath}/assets/img/${product.image}">
                                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                                 <ul class="list-unstyled">
-                                                    <li><a class="btn btn-success text-white" href="shop-single.html?id=${product.id}"><i class="far fa-heart"></i></a></li>
-                                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${product.id}"><i class="far fa-eye"></i></a></li>
-                                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${product.id}"><i class="fas fa-cart-plus"></i></a></li>
+                                                    <li><a class="btn btn-success text-white" href="ProductDetails?productId=${product.id}"><i class="far fa-heart"></i></a></li>
+                                                    <li><a class="btn btn-success text-white mt-2" href="ProductDetails?productId=${product.id}"><i class="far fa-eye"></i></a></li>
+                                                    <li><a class="btn btn-success text-white mt-2" href="ProductDetails?productId=${product.id}"><i class="fas fa-cart-plus"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>

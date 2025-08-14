@@ -29,7 +29,7 @@
                 <div class="col-12 col-md-4 p-5 mt-3">
                     <a href="#"><img src="${pageContext.request.contextPath}/assets/img/${category.imageUrl}.jpg" class="rounded-circle img-fluid border"></a>
                     <h2 class="h5 text-center mt-3 mb-3">${category.name}</h2>
-                    <p class="text-center"><a class="btn btn-success">${category.description}</a></p>
+                    <p class="text-center"><a class="btn btn-success" href="Shop?categoryId=${category.id}">Go Shop</a></p>
                 </div>
             </c:forEach>
         </div>

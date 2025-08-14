@@ -43,4 +43,8 @@ public interface ProductService {
      * @return Liste des produits vedettes
      */
     List<Product> findFeaturedProducts();
+
+    public List<Product> getProductsByCategory(int categoryId, int start, int recordsPerPage);
+
+    public int countProductsByCategory(int categoryId);
 }
