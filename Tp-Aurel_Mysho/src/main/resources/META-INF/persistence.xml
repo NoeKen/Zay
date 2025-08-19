@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="myshopPU" transaction-type="RESOURCE_LOCAL">
+    
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <class>com.models.Category</class>
+    <class>com.models.Product</class>
+    <class>com.models.User</class>
+    <class>com.models.Order</class>
+    <class>com.models.OrderLine</class>
+    <class>com.models.ContactMessage</class>
+    <class>com.models.Review</class>
+
+    <properties>
+      <!-- Connexion DB -->
+      <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://mysql-bdeb.alwaysdata.net/bdeb_myshop"/>
+      <property name="jakarta.persistence.jdbc.user" value="bdeb_user1"/>
+      <property name="jakarta.persistence.jdbc.password" value="Projet_final"/>
+
+      <!-- Hibernate -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+    </properties>
+
+  </persistence-unit>
+</persistence>
